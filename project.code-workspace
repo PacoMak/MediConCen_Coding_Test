@@ -17,6 +17,10 @@
       "path": "packages/contracts",
     },
     {
+      "name": "@mediconcen_coding_test/exceptions",
+      "path": "packages/exceptions",
+    },
+    {
       "name": "@mediconcen_coding_test/dtos",
       "path": "packages/dtos",
     },
