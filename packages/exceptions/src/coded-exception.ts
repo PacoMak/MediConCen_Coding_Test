@@ -18,11 +18,13 @@ export type ErrorCode = {
 }
 
 export class CodedException extends Error {
-  constructor(
-    readonly category: ExceptionCategoryType,
-    readonly code: ErrorCode,
-  ) {
+  readonly category: ExceptionCategoryType
+  readonly code: ErrorCode
+
+  constructor(category: ExceptionCategoryType, code: ErrorCode) {
     super(code.code)
     this.name = 'CodedException'
+    this.category = category
+    this.code = code
   }
 }

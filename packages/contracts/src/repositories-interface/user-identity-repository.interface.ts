@@ -1,6 +1,6 @@
 import {
-  UserIdentity,
   userIdentitySchema,
+  type UserIdentity,
 } from '@mediconcen_coding_test/schemas'
 import { z } from 'zod'
 
