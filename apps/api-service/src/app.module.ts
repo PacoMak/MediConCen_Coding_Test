@@ -1,11 +1,10 @@
 import { Module } from '@nestjs/common'
-import { AppController } from './app.controller.js'
-import { AppService } from './app.service.js'
+import { UserIdentityModule } from '@mediconcen_coding_test/backend-application-service'
 import { ConfigModule } from './config/config.module.js'
+import { UserIdentityController } from './user-identity/user-identity.controller.js'
 
 @Module({
-  imports: [ConfigModule],
-  controllers: [AppController],
-  providers: [AppService],
+  imports: [ConfigModule, UserIdentityModule],
+  controllers: [UserIdentityController],
 })
 export class AppModule {}

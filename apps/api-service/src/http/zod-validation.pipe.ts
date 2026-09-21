@@ -1,0 +1,23 @@
+import { BadRequestException, Injectable, PipeTransform } from '@nestjs/common'
+import type { ZodType } from 'zod'
+
+@Injectable()
+export class ZodValidationPipe implements PipeTransform {
+  constructor(private readonly schema: ZodType) {}
+
+  transform(value: unknown) {
+    const result = this.schema.safeParse(value)
+    if (result.success) {
+      return result.data
+    }
+
+    const message = result.error.issues
+      .map((issue) => {
+        const path = issue.path.length > 0 ? issue.path.join('.') : 'body'
+        return `${path}: ${issue.message}`
+      })
+      .join('; ')
+
+    throw new BadRequestException(message)
+  }
+}

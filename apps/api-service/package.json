@@ -7,11 +7,12 @@
   "license": "UNLICENSED",
   "type": "module",
   "scripts": {
-    "prebuild": "npm run build -w @mediconcen_coding_test/backend-common",
+    "prebuild": "npm run build:workspace",
     "build": "nest build",
-    "prestart": "npm run build -w @mediconcen_coding_test/backend-common",
+    "prestart": "npm run build:workspace",
     "start": "nest start",
-    "predev": "npm run build -w @mediconcen_coding_test/backend-common",
+    "predev": "npm run build:workspace",
+    "build:workspace": "npm run build -w @mediconcen_coding_test/backend-common && npm run build -w @mediconcen_coding_test/database-repository && npm run build -w @mediconcen_coding_test/backend-application-service",
     "dev": "NODE_ENV=development nest start --watch",
     "debug": "nest start --debug --watch",
     "start:prod": "node dist/main.js",
@@ -22,15 +23,19 @@
     "check:test": "vitest run"
   },
   "dependencies": {
+    "@mediconcen_coding_test/api-defs": "0.0.1",
+    "@mediconcen_coding_test/backend-application-service": "0.0.1",
     "@mediconcen_coding_test/backend-common": "0.0.1",
     "@nestjs/common": "^12.0.1",
     "@nestjs/config": "^12.0.0",
     "@nestjs/core": "^12.0.1",
     "@nestjs/platform-express": "^12.0.1",
+    "@nestjs/swagger": "^12.0.0",
     "camelcase": "^9.0.0",
     "flat": "^6.0.1",
     "reflect-metadata": "^0.2.2",
-    "rxjs": "^7.8.1"
+    "rxjs": "^7.8.1",
+    "zod": "^4.6.5"
   },
   "devDependencies": {
     "@mediconcen_coding_test/oxlint-nestjs": "0.0.1",
