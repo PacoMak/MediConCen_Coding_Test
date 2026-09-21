@@ -3,5 +3,7 @@ node_modules
 **/node_modules
 **/dist
 **/*.tsbuildinfo
-.env
-.env.*
+# `.env` / `.env.*` only match the build-context root. Nested files such as
+# `apps/api-service/.env` and `packages/database-schema/.env` need `**/`.
+**/.env
+**/.env.*
