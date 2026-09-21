@@ -41,6 +41,7 @@ WORKDIR /opt/app
 COPY --from=deps /opt/app/node_modules ./node_modules
 COPY --from=build /opt/app/apps/api-service/dist ./apps/api-service/dist
 COPY --from=build /opt/app/apps/api-service/package.json ./apps/api-service/
+COPY --from=build /opt/app/packages ./packages
 
 USER node
 EXPOSE 3000

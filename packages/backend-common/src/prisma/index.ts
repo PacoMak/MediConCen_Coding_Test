@@ -1,0 +1,5 @@
+export type * from '@mediconcen_coding_test/database-schema'
+export { Prisma } from '@mediconcen_coding_test/database-schema'
+export { databaseEnvSchema, type DatabaseEnv } from './database-env.schema.ts'
+export { PrismaModule } from './prisma.module.ts'
+export { PrismaService } from './prisma.service.ts'
