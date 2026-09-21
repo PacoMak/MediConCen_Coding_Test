@@ -41,11 +41,12 @@ cp packages/database-schema/.env.sample packages/database-schema/.env
 | `DATABASE__DATABASE` | Database name |
 | `DATABASE__USER` | Application MySQL user |
 | `DATABASE__PASSWORD` | Application MySQL password |
+| `MYSQL_ROOT_PASSWORD` | MySQL root password used by Compose to initialise and administer the container. Required; there is no default |
 | `REDIS__HOST` | Redis host (`localhost` locally; Compose overrides this to `redis`) |
 | `REDIS__PORT` | Redis port (default `6379`) |
 | `REDIS__PASSWORD` | Redis password (required by Compose) |
 
-Compose also reads `MYSQL_ROOT_PASSWORD` from `apps/api-service/.env` (defaults to `root` if omitted). That value is only for the MySQL container, not for the API process.
+Compose requires `MYSQL_ROOT_PASSWORD` from `apps/api-service/.env`; it has no default. It is used only by the MySQL container and the one-off `mysql-grants` service, not by the API process. An existing `mysql-data` volume keeps the password it was created with, so either recreate the volume or change the MySQL root password after changing this value.
 
 `packages/database-schema/.env` is used only by Prisma CLI (`migrate`, `studio`). Set `DATABASE_URL` to the same credentials:
 
