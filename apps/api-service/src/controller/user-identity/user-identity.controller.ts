@@ -5,7 +5,7 @@ import {
   ApiController,
   ApiEndpoint,
   EndpointBody,
-} from '../http/api-endpoint.decorator.js'
+} from '../../http/api-endpoint.decorator.js'
 
 @ApiController(userIdentityRoutes)
 export class UserIdentityController {

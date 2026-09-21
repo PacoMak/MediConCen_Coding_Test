@@ -1,10 +1,8 @@
 import { Module } from '@nestjs/common'
-import { UserIdentityModule } from '@mediconcen_coding_test/backend-application-service'
 import { ConfigModule } from './config/config.module.js'
-import { UserIdentityController } from './user-identity/user-identity.controller.js'
+import { ControllerModule } from './controller/controller.module.js'
 
 @Module({
-  imports: [ConfigModule, UserIdentityModule],
-  controllers: [UserIdentityController],
+  imports: [ConfigModule, ControllerModule],
 })
 export class AppModule {}
