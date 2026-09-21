@@ -1,0 +1,20 @@
+{
+  "name": "@mediconcen_coding_test/oxlint-node",
+  "version": "0.0.1",
+  "private": true,
+  "description": "Shared oxlint config for Node.js packages",
+  "license": "ISC",
+  "exports": {
+    ".": "./.oxlintrc.json",
+    "./.oxlintrc.json": "./.oxlintrc.json"
+  },
+  "files": [
+    ".oxlintrc.json"
+  ],
+  "dependencies": {
+    "@mediconcen_coding_test/oxlint-base": "0.0.1"
+  },
+  "peerDependencies": {
+    "oxlint": "^1"
+  }
+}

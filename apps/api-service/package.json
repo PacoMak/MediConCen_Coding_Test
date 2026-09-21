@@ -1,0 +1,38 @@
+{
+  "name": "@mediconcen_coding_test/api-service",
+  "version": "0.0.1",
+  "private": true,
+  "description": "",
+  "author": "",
+  "license": "UNLICENSED",
+  "type": "module",
+  "scripts": {
+    "build": "nest build",
+    "start": "nest start",
+    "dev": "NODE_ENV=development nest start --watch",
+    "debug": "nest start --debug --watch",
+    "start:prod": "node dist/apps/api-service/src/main.js",
+    "lint": "oxlint --type-aware src/",
+    "check:lint": "oxlint --type-aware src/",
+    "check:types": "tsc --noEmit",
+    "test": "vitest run",
+    "check:test": "vitest run"
+  },
+  "dependencies": {
+    "@nestjs/common": "^12.0.1",
+    "@nestjs/core": "^12.0.1",
+    "@nestjs/platform-express": "^12.0.1",
+    "reflect-metadata": "^0.2.2",
+    "rxjs": "^7.8.1"
+  },
+  "devDependencies": {
+    "@mediconcen_coding_test/oxlint-nestjs": "0.0.1",
+    "@mediconcen_coding_test/tsconfig-nestjs": "0.0.1",
+    "@nestjs/cli": "^12.0.0",
+    "@nestjs/schematics": "^12.0.0",
+    "@types/express": "^5.0.0",
+    "@types/node": "^24.0.0",
+    "source-map-support": "^0.5.21",
+    "vitest": "^3.2.4"
+  }
+}

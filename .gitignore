@@ -1,0 +1,8 @@
+node_modules
+.oxlintcache
+dist/
+lint-results
+*.tsbuildinfo
+.env
+.env.*
+!.env.sample

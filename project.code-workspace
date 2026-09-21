@@ -1,0 +1,24 @@
+{
+  "folders": [
+    {
+      "name": "@mediconcen_coding_test/api-service",
+      "path": "apps/api-service",
+    },
+    {
+      "name": "@mediconcen_coding_test",
+      "path": ".",
+    },
+  ],
+  "settings": {
+    "ts.preferGoToSourceDefinition": true,
+    "js.preferGoToSourceDefinition": true,
+    "files.exclude": {
+      "**/node_modules": true,
+      "**/dist": true,
+    },
+    "search.exclude": {
+      "**/node_modules": true,
+      "**/dist": true,
+    },
+  },
+}

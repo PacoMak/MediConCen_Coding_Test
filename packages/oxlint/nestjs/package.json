@@ -1,0 +1,17 @@
+{
+  "name": "@mediconcen_coding_test/oxlint-nestjs",
+  "version": "0.0.1",
+  "private": true,
+  "description": "Shared oxlint config for NestJS apps and libraries",
+  "license": "ISC",
+  "exports": {
+    ".": "./.oxlintrc.json",
+    "./.oxlintrc.json": "./.oxlintrc.json"
+  },
+  "files": [
+    ".oxlintrc.json"
+  ],
+  "peerDependencies": {
+    "oxlint": "^1"
+  }
+}

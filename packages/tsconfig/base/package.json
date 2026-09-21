@@ -1,0 +1,13 @@
+{
+  "name": "@mediconcen_coding_test/tsconfig-base",
+  "version": "0.0.1",
+  "private": true,
+  "description": "Shared base TypeScript config for the monorepo",
+  "license": "ISC",
+  "exports": {
+    "./tsconfig.json": "./tsconfig.json"
+  },
+  "files": [
+    "tsconfig.json"
+  ]
+}

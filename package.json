@@ -1,0 +1,28 @@
+{
+  "name": "mediconcen_coding_test",
+  "version": "0.0.1",
+  "license": "ISC",
+  "main": "index.js",
+  "workspaces": [
+    "apps/*",
+    "packages/*",
+    "packages/oxlint/*",
+    "packages/tsconfig/*"
+  ],
+  "scripts": {
+    "lint": "npm run lint --workspaces --if-present",
+    "check:lint": "npm run check:lint --workspaces --if-present",
+    "check:types": "npm run check:types --workspaces --if-present",
+    "check:test": "npm run check:test --workspaces --if-present",
+    "check:packages": "syncpack lint",
+    "fix:format": "prettier --write .",
+    "fix:packages": "syncpack fix && syncpack format"
+  },
+  "devDependencies": {
+    "oxlint": "^1",
+    "oxlint-tsgolint": "^7",
+    "prettier": "^3.9.8",
+    "syncpack": "^15",
+    "typescript": "^6"
+  }
+}

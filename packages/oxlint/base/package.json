@@ -1,0 +1,17 @@
+{
+  "name": "@mediconcen_coding_test/oxlint-base",
+  "version": "0.0.1",
+  "private": true,
+  "description": "Shared base oxlint config for the monorepo",
+  "license": "ISC",
+  "exports": {
+    ".": "./.oxlintrc.json",
+    "./.oxlintrc.json": "./.oxlintrc.json"
+  },
+  "files": [
+    ".oxlintrc.json"
+  ],
+  "peerDependencies": {
+    "oxlint": "^1"
+  }
+}

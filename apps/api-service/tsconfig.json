@@ -1,0 +1,11 @@
+{
+  "extends": "@mediconcen_coding_test/tsconfig-nestjs/tsconfig.json",
+  "compilerOptions": {
+    "declaration": true,
+    "removeComments": true,
+    "allowSyntheticDefaultImports": true,
+    "sourceMap": true,
+    "outDir": "./dist",
+    "rootDir": "."
+  }
+}

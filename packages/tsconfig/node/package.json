@@ -1,0 +1,16 @@
+{
+  "name": "@mediconcen_coding_test/tsconfig-node",
+  "version": "0.0.1",
+  "private": true,
+  "description": "TypeScript config for Node.js packages",
+  "license": "ISC",
+  "exports": {
+    "./tsconfig.json": "./tsconfig.json"
+  },
+  "files": [
+    "tsconfig.json"
+  ],
+  "dependencies": {
+    "@mediconcen_coding_test/tsconfig-base": "0.0.1"
+  }
+}

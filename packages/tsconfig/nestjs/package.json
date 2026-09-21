@@ -1,0 +1,13 @@
+{
+  "name": "@mediconcen_coding_test/tsconfig-nestjs",
+  "version": "0.0.1",
+  "private": true,
+  "description": "TypeScript config for NestJS apps and libraries",
+  "license": "ISC",
+  "exports": {
+    "./tsconfig.json": "./tsconfig.json"
+  },
+  "files": [
+    "tsconfig.json"
+  ]
+}
