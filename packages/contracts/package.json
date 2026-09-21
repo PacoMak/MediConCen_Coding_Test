@@ -1,0 +1,29 @@
+{
+  "name": "@mediconcen_coding_test/contracts",
+  "version": "0.0.1",
+  "private": true,
+  "description": "Shared interfaces and dependency-injection tokens",
+  "license": "ISC",
+  "type": "module",
+  "exports": {
+    ".": {
+      "types": "./src/index.ts",
+      "import": "./src/index.ts"
+    }
+  },
+  "scripts": {
+    "check:lint": "oxlint --type-aware src/",
+    "check:types": "tsc --noEmit",
+    "lint": "oxlint --type-aware src/"
+  },
+  "dependencies": {
+    "@mediconcen_coding_test/dtos": "0.0.1",
+    "@mediconcen_coding_test/schemas": "0.0.1",
+    "zod": "^4.6.5"
+  },
+  "devDependencies": {
+    "@mediconcen_coding_test/oxlint-nestjs": "0.0.1",
+    "@mediconcen_coding_test/tsconfig-nestjs": "0.0.1",
+    "@types/node": "^24.0.0"
+  }
+}

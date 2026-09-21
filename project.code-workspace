@@ -5,6 +5,10 @@
       "path": "apps/api-service",
     },
     {
+      "name": "@mediconcen_coding_test/contracts",
+      "path": "packages/contracts",
+    },
+    {
       "name": "@mediconcen_coding_test/dtos",
       "path": "packages/dtos",
     },
