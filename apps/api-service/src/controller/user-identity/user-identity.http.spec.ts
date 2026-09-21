@@ -83,16 +83,9 @@ function createInMemoryRepository(
 }
 
 function createInMemoryRedis(): RedisService {
-  const cache = new Map<string, string>()
   const locks = new Map<string, string>()
 
   return {
-    async get(key: string) {
-      return cache.get(key) ?? null
-    },
-    async set(key: string, value: string) {
-      cache.set(key, value)
-    },
     isAvailable() {
       return true
     },

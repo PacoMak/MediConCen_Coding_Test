@@ -52,7 +52,7 @@ export class RedisService
       this.available = false
       const message = error instanceof Error ? error.message : 'unknown error'
       this.logger.warn(
-        `Redis unavailable, continuing without cache: ${message}`,
+        `Redis unavailable, continuing without locks: ${message}`,
       )
     }
   }
@@ -60,35 +60,6 @@ export class RedisService
   async onModuleDestroy(): Promise<void> {
     if (this.client.status !== 'end') {
       await this.client.quit()
-    }
-  }
-
-  async get(key: string): Promise<string | null> {
-    if (!this.available) {
-      return null
-    }
-
-    try {
-      return await this.client.get(key)
-    } catch (error) {
-      this.available = false
-      const message = error instanceof Error ? error.message : 'unknown error'
-      this.logger.warn(`Redis get failed: ${message}`)
-      return null
-    }
-  }
-
-  async set(key: string, value: string): Promise<void> {
-    if (!this.available) {
-      return
-    }
-
-    try {
-      await this.client.set(key, value)
-    } catch (error) {
-      this.available = false
-      const message = error instanceof Error ? error.message : 'unknown error'
-      this.logger.warn(`Redis set failed: ${message}`)
     }
   }
 

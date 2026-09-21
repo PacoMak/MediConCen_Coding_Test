@@ -30,42 +30,24 @@ export class UserIdentityService {
   ) {}
 
   async ensureUserId(id1: string, id2: string): Promise<EnsureUserIdResult> {
-    const cacheKey = UserIdentityService.cacheKey(id1, id2)
-    const cached = await this.redis.get(cacheKey)
-    if (cached !== null) {
-      return { userID: cached }
-    }
-
     const lockKey = UserIdentityService.lockKey(id1, id2)
     const lockToken = await this.waitForLock(lockKey)
 
-    if (lockToken === null) {
-      // Redis is unavailable, or the lock could not be acquired before its
-      // TTL elapsed. The unique index on (id1, id2) plus the re-read in
-      // loadOrCreate keeps this path correct.
-      return this.loadOrCreate(id1, id2, cacheKey)
-    }
-
     try {
-      return await this.loadOrCreate(id1, id2, cacheKey)
+      return await this.loadOrCreate(id1, id2)
     } finally {
       await this.redis.releaseLock(lockKey, lockToken)
     }
   }
 
-  private async waitForLock(lockKey: string): Promise<string | null> {
-    const deadline = Date.now() + LOCK_TTL_MS
-
+  private async waitForLock(lockKey: string): Promise<string> {
     while (true) {
       const token = await this.redis.tryLock(lockKey, LOCK_TTL_MS)
       if (token !== null) {
         return token
       }
       if (!this.redis.isAvailable()) {
-        return null
-      }
-      if (Date.now() >= deadline) {
-        return null
+        throw new Error('Redis lock unavailable')
       }
       await sleep(LOCK_RETRY_INTERVAL_MS)
     }
@@ -74,14 +56,12 @@ export class UserIdentityService {
   private async loadOrCreate(
     id1: string,
     id2: string,
-    cacheKey: string,
   ): Promise<EnsureUserIdResult> {
     const existing = await this.userIdentityRepository.getByIdPair({
       id1,
       id2,
     })
     if (existing !== null) {
-      await this.redis.set(cacheKey, existing.userId)
       return { userID: existing.userId }
     }
 
@@ -94,7 +74,6 @@ export class UserIdentityService {
         id2,
         userId,
       })
-      await this.redis.set(cacheKey, created.userId)
       return { userID: created.userId }
     } catch (error) {
       if (
@@ -111,15 +90,10 @@ export class UserIdentityService {
           )
           throw error
         }
-        await this.redis.set(cacheKey, raced.userId)
         return { userID: raced.userId }
       }
       throw error
     }
-  }
-
-  static cacheKey(id1: string, id2: string): string {
-    return `user-identity:${encodeComponent(id1)}:${encodeComponent(id2)}`
   }
 
   static lockKey(id1: string, id2: string): string {

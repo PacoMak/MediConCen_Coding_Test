@@ -13,8 +13,6 @@ describe('UserIdentityService', () => {
     create: vi.fn(),
   }
   const redis = {
-    get: vi.fn(),
-    set: vi.fn(),
     tryLock: vi.fn(),
     releaseLock: vi.fn(),
     isAvailable: vi.fn(() => true),
@@ -27,7 +25,6 @@ describe('UserIdentityService', () => {
 
   beforeEach(() => {
     vi.clearAllMocks()
-    redis.get.mockResolvedValue(null)
     redis.tryLock.mockResolvedValue('lock-token')
     redis.releaseLock.mockResolvedValue(undefined)
     redis.isAvailable.mockReturnValue(true)
@@ -38,14 +35,24 @@ describe('UserIdentityService', () => {
     )
   })
 
-  it('returns a cached userID without locking or hitting the database', async () => {
-    redis.get.mockResolvedValue('cached-user')
+  it('locks, then reads the database, then releases the lock', async () => {
+    const order: string[] = []
+    redis.tryLock.mockImplementation(async () => {
+      order.push('lock')
+      return 'lock-token'
+    })
+    repository.getByIdPair.mockImplementation(async () => {
+      order.push('db')
+      return { userId: 'existing-user' }
+    })
+    redis.releaseLock.mockImplementation(async () => {
+      order.push('unlock')
+    })
 
     await expect(service.ensureUserId('ABC123', 'XYZ456')).resolves.toEqual({
-      userID: 'cached-user',
+      userID: 'existing-user',
     })
-    expect(redis.tryLock).not.toHaveBeenCalled()
-    expect(repository.getByIdPair).not.toHaveBeenCalled()
+    expect(order).toEqual(['lock', 'db', 'unlock'])
     expect(repository.create).not.toHaveBeenCalled()
   })
 
@@ -121,18 +128,15 @@ describe('UserIdentityService', () => {
     )
   })
 
-  it('skips waiting when Redis is unavailable', async () => {
+  it('does not read the database until the lock is acquired', async () => {
     redis.tryLock.mockResolvedValue(null)
     redis.isAvailable.mockReturnValue(false)
-    repository.getByIdPair.mockResolvedValue(null)
-    repository.create.mockImplementation(
-      async (_actorId: string, data: { userId: string }) => ({
-        userId: data.userId,
-      }),
-    )
 
-    const result = await service.ensureUserId('ABC123', 'XYZ456')
-    expect(result.userID).toBeDefined()
+    await expect(service.ensureUserId('ABC123', 'XYZ456')).rejects.toThrow(
+      'Redis lock unavailable',
+    )
+    expect(repository.getByIdPair).not.toHaveBeenCalled()
+    expect(repository.create).not.toHaveBeenCalled()
     expect(redis.releaseLock).not.toHaveBeenCalled()
   })
 
@@ -155,15 +159,12 @@ describe('UserIdentityService', () => {
     )
   })
 
-  it('builds collision-safe cache and lock keys', () => {
-    expect(UserIdentityService.cacheKey('a:b', 'c')).not.toBe(
-      UserIdentityService.cacheKey('a', 'b:c'),
-    )
+  it('builds collision-safe lock keys', () => {
     expect(UserIdentityService.lockKey('a:b', 'c')).not.toBe(
       UserIdentityService.lockKey('a', 'b:c'),
     )
-    expect(UserIdentityService.cacheKey('ABC123', 'XYZ456')).toBe(
-      'user-identity:ABC123:XYZ456',
+    expect(UserIdentityService.lockKey('ABC123', 'XYZ456')).toBe(
+      'user-identity-lock:ABC123:XYZ456',
     )
   })
 })
