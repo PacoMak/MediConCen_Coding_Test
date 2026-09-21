@@ -1,0 +1,35 @@
+{
+  "name": "@mediconcen_coding_test/database-repository",
+  "version": "0.0.1",
+  "private": true,
+  "description": "NestJS database repositories",
+  "license": "ISC",
+  "type": "module",
+  "exports": {
+    ".": {
+      "types": "./src/index.ts",
+      "import": "./dist/index.js"
+    }
+  },
+  "scripts": {
+    "build": "tsc -p tsconfig.build.json",
+    "prepare": "node -e \"process.exit(process.env.NODE_ENV === 'production' ? 0 : 1)\" || npm run build",
+    "check:lint": "oxlint --type-aware src/",
+    "check:types": "tsc --noEmit",
+    "lint": "oxlint --type-aware src/"
+  },
+  "dependencies": {
+    "@mediconcen_coding_test/backend-common": "0.0.1",
+    "@mediconcen_coding_test/contracts": "0.0.1",
+    "@mediconcen_coding_test/exceptions": "0.0.1"
+  },
+  "devDependencies": {
+    "@mediconcen_coding_test/oxlint-nestjs": "0.0.1",
+    "@mediconcen_coding_test/tsconfig-nestjs": "0.0.1",
+    "@nestjs/common": "^12.0.1",
+    "@types/node": "^24.0.0"
+  },
+  "peerDependencies": {
+    "@nestjs/common": "^12.0.1"
+  }
+}

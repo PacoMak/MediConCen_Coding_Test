@@ -17,6 +17,10 @@
       "path": "packages/contracts",
     },
     {
+      "name": "@mediconcen_coding_test/database-repository",
+      "path": "packages/database-repository",
+    },
+    {
       "name": "@mediconcen_coding_test/exceptions",
       "path": "packages/exceptions",
     },
