@@ -1,6 +1,6 @@
 import { userIdentityDtoSchemas } from '@mediconcen_coding_test/dtos'
 import { z } from 'zod'
-import type { Routes } from './routes.js'
+import type { Routes } from './routes.ts'
 
 const emptySchema = z.object({})
 

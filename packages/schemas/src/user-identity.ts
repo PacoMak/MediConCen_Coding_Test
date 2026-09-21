@@ -1,5 +1,5 @@
 import { z } from 'zod'
-import { defineEntity } from './define-entity.js'
+import { defineEntity } from './define-entity.ts'
 
 export const userIdentitySchema = defineEntity({
   id1: z.string(),

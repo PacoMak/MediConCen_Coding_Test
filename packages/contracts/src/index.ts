@@ -5,4 +5,4 @@ export {
   type CreatePayload,
   type GetByIdPairFilter,
   type IUserIdentityRepository,
-} from './repositories-interface/index.js'
+} from './repositories-interface/index.ts'

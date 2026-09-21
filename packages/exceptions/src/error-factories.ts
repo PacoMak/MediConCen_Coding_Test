@@ -2,7 +2,7 @@ import {
   CodedException,
   type ErrorCode,
   type ExceptionCategoryType,
-} from './coded-exception.js'
+} from './coded-exception.ts'
 
 type DetailArgs = [] | [unknown]
 

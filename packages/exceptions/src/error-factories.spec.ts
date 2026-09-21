@@ -1,6 +1,6 @@
 import { describe, expect, it } from 'vitest'
-import { CodedException, ExceptionCategory } from './coded-exception.js'
-import { prepareErrorFactories } from './error-factories.js'
+import { CodedException, ExceptionCategory } from './coded-exception.ts'
+import { prepareErrorFactories } from './error-factories.ts'
 
 const SampleError = prepareErrorFactories<{
   noDetails: []
