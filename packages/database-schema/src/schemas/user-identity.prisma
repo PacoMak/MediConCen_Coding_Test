@@ -1,0 +1,13 @@
+model UserIdentity {
+  id        String   @id @default(uuid()) @db.Char(36)
+  id1       String
+  id2       String
+  userId    String   @db.Char(36)
+  createdBy String   @db.Char(36)
+  createdAt DateTime @default(now())
+  updatedBy String   @db.Char(36)
+  updatedAt DateTime @updatedAt
+
+  @@unique([id1, id2])
+  @@map("userIdentities")
+}

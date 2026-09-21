@@ -20,6 +20,8 @@ services:
     depends_on:
       mysql:
         condition: service_healthy
+      mysql-grants:
+        condition: service_completed_successfully
       redis:
         condition: service_healthy
 
@@ -44,6 +46,27 @@ services:
       timeout: 5s
       retries: 20
       start_period: 20s
+
+  # prisma migrate dev creates prisma_migrate_shadow_db_*; MYSQL_USER only has MYSQL_DATABASE.
+  mysql-grants:
+    image: mysql:8.4
+    environment:
+      MYSQL_PWD: ${MYSQL_ROOT_PASSWORD:-root}
+      MYSQL_USER: ${DATABASE__USER:?DATABASE__USER is required}
+    depends_on:
+      mysql:
+        condition: service_healthy
+    restart: 'no'
+    entrypoint:
+      - /bin/sh
+      - -c
+    command:
+      - |
+        mysql -h mysql -u root --protocol=TCP -e "
+        GRANT CREATE ON *.* TO '$${MYSQL_USER}'@'%';
+        GRANT CREATE, ALTER, DROP, INDEX, REFERENCES ON \`prisma_migrate_shadow_db%\`.* TO '$${MYSQL_USER}'@'%';
+        FLUSH PRIVILEGES;
+        "
 
   redis:
     image: redis:7-alpine

@@ -21,6 +21,10 @@
       "path": "packages/schemas",
     },
     {
+      "name": "@mediconcen_coding_test/database-schema",
+      "path": "packages/database-schema",
+    },
+    {
       "name": "@mediconcen_coding_test",
       "path": ".",
     },
