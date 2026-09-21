@@ -1,0 +1,69 @@
+services:
+  api-service:
+    image: api-service
+    build:
+      context: .
+      dockerfile: apps/api-service/Dockerfile
+    ports:
+      - '3000:3000'
+    environment:
+      PORT: ${PORT:-3000}
+      ENV: ${ENV:-LOCAL}
+      DATABASE__SERVER: mysql
+      DATABASE__PORT: ${DATABASE__PORT:-3306}
+      DATABASE__DATABASE: ${DATABASE__DATABASE:?DATABASE__DATABASE is required}
+      DATABASE__USER: ${DATABASE__USER:?DATABASE__USER is required}
+      DATABASE__PASSWORD: ${DATABASE__PASSWORD:?DATABASE__PASSWORD is required}
+      REDIS__HOST: redis
+      REDIS__PORT: ${REDIS__PORT:-6379}
+      REDIS__PASSWORD: ${REDIS__PASSWORD:?REDIS__PASSWORD is required}
+    depends_on:
+      mysql:
+        condition: service_healthy
+      redis:
+        condition: service_healthy
+
+  mysql:
+    image: mysql:8.4
+    environment:
+      MYSQL_DATABASE: ${DATABASE__DATABASE:?DATABASE__DATABASE is required}
+      MYSQL_USER: ${DATABASE__USER:?DATABASE__USER is required}
+      MYSQL_PASSWORD: ${DATABASE__PASSWORD:?DATABASE__PASSWORD is required}
+      MYSQL_ROOT_PASSWORD: ${MYSQL_ROOT_PASSWORD:-root}
+    ports:
+      - '3306:3306'
+    volumes:
+      - mysql-data:/var/lib/mysql
+    healthcheck:
+      test:
+        [
+          'CMD-SHELL',
+          'mysqladmin ping -h 127.0.0.1 -u root -p"$$MYSQL_ROOT_PASSWORD"',
+        ]
+      interval: 5s
+      timeout: 5s
+      retries: 20
+      start_period: 20s
+
+  redis:
+    image: redis:7-alpine
+    command:
+      - /bin/sh
+      - -c
+      - exec redis-server --appendonly yes --requirepass "$$REDIS_PASSWORD"
+    environment:
+      REDIS_PASSWORD: ${REDIS__PASSWORD:?REDIS__PASSWORD is required}
+      REDISCLI_AUTH: ${REDIS__PASSWORD:?REDIS__PASSWORD is required}
+    ports:
+      - '6379:6379'
+    volumes:
+      - redis-data:/data
+    healthcheck:
+      test: ['CMD', 'redis-cli', 'ping']
+      interval: 5s
+      timeout: 3s
+      retries: 10
+
+volumes:
+  mysql-data:
+  redis-data:
