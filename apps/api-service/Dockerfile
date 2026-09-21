@@ -19,10 +19,12 @@ RUN NODE_ENV=production npm ci --omit=dev
 FROM ${NODE_IMAGE} AS build
 WORKDIR /opt/app
 COPY --from=manifests /manifests/ ./
-RUN NODE_ENV=development npm ci
+# Manifests-only layer: skip prepare (tsc / prisma generate need sources).
+RUN NODE_ENV=development npm ci --ignore-scripts
 COPY apps/api-service ./apps/api-service
 COPY packages ./packages
-RUN npm run build -w @mediconcen_coding_test/api-service
+RUN npm exec -w @mediconcen_coding_test/database-schema -- prisma generate \
+    && npm run build -w @mediconcen_coding_test/api-service
 
 FROM ${NODE_IMAGE} AS run
 ENV NODE_ENV=production
@@ -38,10 +40,12 @@ LABEL org.opencontainers.image.revision=${GIT_SHA} \
     org.opencontainers.image.title=api-service
 
 WORKDIR /opt/app
-COPY --from=deps /opt/app/node_modules ./node_modules
-COPY --from=build /opt/app/apps/api-service/dist ./apps/api-service/dist
-COPY --from=build /opt/app/apps/api-service/package.json ./apps/api-service/
-COPY --from=build /opt/app/packages ./packages
+COPY --from=deps --chown=node:node /opt/app/node_modules ./node_modules
+COPY --from=build --chown=node:node /opt/app/apps/api-service/dist ./apps/api-service/dist
+COPY --from=build --chown=node:node /opt/app/apps/api-service/package.json ./apps/api-service/
+COPY --from=build --chown=node:node /opt/app/packages ./packages
+# Host files may be 0600; the process user is `node`.
+RUN chmod -R a+rX /opt/app/packages /opt/app/apps/api-service /opt/app/node_modules
 
 USER node
 EXPOSE 3000
