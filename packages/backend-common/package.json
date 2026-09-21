@@ -21,6 +21,7 @@
     "check:test": "vitest run"
   },
   "dependencies": {
+    "@mediconcen_coding_test/contracts": "0.0.1",
     "@mediconcen_coding_test/database-schema": "0.0.1",
     "@prisma/adapter-mariadb": "^7.10.0",
     "ioredis": "^5.8.1",

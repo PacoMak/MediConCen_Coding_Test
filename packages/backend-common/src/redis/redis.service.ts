@@ -6,6 +6,7 @@ import {
   OnModuleInit,
 } from '@nestjs/common'
 import { ConfigService } from '@nestjs/config'
+import type { IHealthChecker } from '@mediconcen_coding_test/contracts'
 import { Redis } from 'ioredis'
 import type { RedisEnv } from './redis-env.schema.ts'
 
@@ -18,7 +19,9 @@ end
 `
 
 @Injectable()
-export class RedisService implements OnModuleInit, OnModuleDestroy {
+export class RedisService
+  implements OnModuleInit, OnModuleDestroy, IHealthChecker
+{
   private readonly logger = new Logger(RedisService.name)
   private readonly client: Redis
   private available = false
@@ -91,6 +94,17 @@ export class RedisService implements OnModuleInit, OnModuleDestroy {
 
   isAvailable(): boolean {
     return this.available
+  }
+
+  async ping(): Promise<boolean> {
+    try {
+      const result = await this.client.ping()
+      this.available = result === 'PONG'
+      return this.available
+    } catch {
+      this.available = false
+      return false
+    }
   }
 
   async tryLock(key: string, ttlMs: number): Promise<string | null> {

@@ -1,3 +1,4 @@
+export type { IHealthChecker } from './health-checker/index.ts'
 export {
   USER_IDENTITY_REPOSITORY,
   createPayload,
