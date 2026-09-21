@@ -23,6 +23,7 @@
   "dependencies": {
     "@mediconcen_coding_test/database-schema": "0.0.1",
     "@prisma/adapter-mariadb": "^7.10.0",
+    "nestjs-cls": "^6.0.0",
     "zod": "^4.6.5"
   },
   "devDependencies": {
