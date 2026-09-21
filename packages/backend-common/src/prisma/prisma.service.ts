@@ -19,6 +19,7 @@ export class PrismaService
         user: database.user,
         password: database.password,
         database: database.database,
+        allowPublicKeyRetrieval: true,
       }),
     })
   }
