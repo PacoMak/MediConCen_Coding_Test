@@ -14,7 +14,9 @@
   "scripts": {
     "check:lint": "oxlint --type-aware src/",
     "check:types": "tsc --noEmit",
-    "lint": "oxlint --type-aware src/"
+    "lint": "oxlint --type-aware src/",
+    "test": "vitest run",
+    "check:test": "vitest run"
   },
   "dependencies": {
     "@mediconcen_coding_test/dtos": "0.0.1",
@@ -23,6 +25,7 @@
   "devDependencies": {
     "@mediconcen_coding_test/oxlint-nestjs": "0.0.1",
     "@mediconcen_coding_test/tsconfig-nestjs": "0.0.1",
-    "@types/node": "^24.0.0"
+    "@types/node": "^24.0.0",
+    "vitest": "^3.2.4"
   }
 }
