@@ -1,3 +1,4 @@
+import { Inject } from '@nestjs/common'
 import { userIdentityRoutes } from '@mediconcen_coding_test/api-defs'
 import { UserIdentityService } from '@mediconcen_coding_test/backend-application-service'
 import type { z } from 'zod'
@@ -9,7 +10,10 @@ import {
 
 @ApiController(userIdentityRoutes)
 export class UserIdentityController {
-  constructor(private readonly userIdentityService: UserIdentityService) {}
+  constructor(
+    @Inject(UserIdentityService)
+    private readonly userIdentityService: UserIdentityService,
+  ) {}
 
   @ApiEndpoint(userIdentityRoutes.endpoints.getAndCreateIfNotExist)
   getAndCreateIfNotExist(

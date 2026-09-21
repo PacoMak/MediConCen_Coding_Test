@@ -19,6 +19,10 @@ describe('ZodValidationPipe', () => {
     expect(() => pipe.transform({ id2: 'XYZ456' })).toThrow(BadRequestException)
   })
 
+  it('rejects missing id2', () => {
+    expect(() => pipe.transform({ id1: 'ABC123' })).toThrow(BadRequestException)
+  })
+
   it('rejects empty strings', () => {
     expect(() => pipe.transform({ id1: '  ', id2: 'XYZ456' })).toThrow(
       BadRequestException,

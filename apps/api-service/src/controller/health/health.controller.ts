@@ -22,6 +22,7 @@ export class HealthController {
   constructor(
     @Inject(PrismaService) private readonly database: IHealthChecker,
     @Inject(RedisService) private readonly redis: IHealthChecker,
+    @Inject(ConfigService)
     private readonly configService: ConfigService<Environment, true>,
   ) {}
 

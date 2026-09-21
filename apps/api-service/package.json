@@ -43,9 +43,12 @@
     "@mediconcen_coding_test/tsconfig-nestjs": "0.0.1",
     "@nestjs/cli": "^12.0.0",
     "@nestjs/schematics": "^12.0.0",
+    "@nestjs/testing": "^12.0.1",
     "@types/express": "^5.0.0",
     "@types/node": "^24.0.0",
+    "@types/supertest": "^6.0.3",
     "source-map-support": "^0.5.21",
+    "supertest": "^7.0.0",
     "vitest": "^3.2.4"
   }
 }
