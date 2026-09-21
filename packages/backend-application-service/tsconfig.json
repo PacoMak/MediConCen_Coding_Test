@@ -1,0 +1,7 @@
+{
+  "extends": "@mediconcen_coding_test/tsconfig-nestjs/tsconfig.json",
+  "include": ["**/*.ts"],
+  "compilerOptions": {
+    "sourceMap": true
+  }
+}

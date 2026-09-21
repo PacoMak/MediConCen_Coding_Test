@@ -5,6 +5,10 @@
       "path": "apps/api-service",
     },
     {
+      "name": "@mediconcen_coding_test/backend-application-service",
+      "path": "packages/backend-application-service",
+    },
+    {
       "name": "@mediconcen_coding_test/backend-common",
       "path": "packages/backend-common",
     },
